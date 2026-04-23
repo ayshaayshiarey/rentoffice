@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('thumbnail')->nullable();
             $table->text('about');
-            $table->foreignId('city_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('city_id')->constrained()->cascadeOnDelete();          
             $table->boolean('is_open');
             $table->boolean('is_full_booked');
             $table->integer('price');
