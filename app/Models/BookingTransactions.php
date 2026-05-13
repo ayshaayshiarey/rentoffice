@@ -2,39 +2,36 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BookingTransactions extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'booking_transactions';
+    
     protected $fillable = [
-        'name',
         'phone_number',
-        'booking_trx_id',
-        'is_paid',
-        'started_at',
+        'booking_trx',
+        'office_space_id',
         'total_amount',
         'duration',
+        'started_at',
         'ended_at',
-        'office_space_id',
+        'is_paid'
     ];
 
-    public static function generateUniqueTrxId()
-    {
-        $prefix = 'FO1';
-        do {
-            $randomString = $prefix . mt_rand(1000, 9999);
-        } while (self::where('booking_trx_id', $randomString)->exists());
+    protected $casts = [
+        'started_at' => 'datetime',
+        'ended_at' => 'datetime',
+        'is_paid' => 'boolean',
+    ];
 
-        return $randomString;
-    }
-
-    public function officeSpace(): BelongsTo
+    // Relasi ke OfficeSpace (jika ada model OfficeSpace)
+    public function officeSpace()
     {
-        return $this->belongsTo(OfficeSpace::class, 'office_space_id');
+        return $this->belongsTo(OfficeSpace::class);
     }
 }

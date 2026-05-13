@@ -18,14 +18,16 @@ class City extends Model
         'photo',
     ];
 
-public function SetNameAttribute($value)
+    // Perbaiki: huruf kecil 's' di SetNameAttribute
+    public function setNameAttribute($value)
     {
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = Str::slug($value);
     }
 
-public function officeSpaces(): HasMany
+    // Perbaiki: tambahkan App\Models\
+    public function officeSpaces(): HasMany
     {
-        return $this->hasMany('OfficeSpace'::class);
+        return $this->hasMany(\App\Models\OfficeSpace::class);
     }
 }
